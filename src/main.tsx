@@ -5,10 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import Layout from "./layout/Layout.tsx";
 
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import firebase from "firebase/compat/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
@@ -22,16 +20,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-export const Context = createContext(null);
-
 const auth = getAuth();
 const firestore = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+export const Context = createContext({ auth, firestore, provider });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Context.Provider value={{ firebase, auth, firestore }}>
+    <Context.Provider value={{ auth, firestore, provider }}>
       <BrowserRouter>
         <Layout />
       </BrowserRouter>
