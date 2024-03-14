@@ -1,21 +1,15 @@
 import { Grid, Box, Button } from "@mui/material";
 import { FC, useContext } from "react";
 import { Context } from "../main";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 
 export const Login: FC = () => {
   const { auth, provider } = useContext(Context);
 
   const login = async () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
+    signInWithPopup(auth, provider).catch((error) => {
+      console.log("error: ", error);
+    });
   };
 
   return (
