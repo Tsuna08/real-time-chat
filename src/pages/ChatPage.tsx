@@ -1,56 +1,59 @@
-import { FC, useState, KeyboardEvent } from "react";
+import { Grid } from "@mui/material";
+import {
+  addDoc,
+  collection,
+  orderBy,
+  query,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
+import { FC, KeyboardEvent, useState } from "react";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  serverTimestamp,
-  collection,
-  addDoc,
-  orderBy,
-  query,
-  Timestamp,
-} from "firebase/firestore";
-import { Grid } from "@mui/material";
-import { Context } from "../main";
+
 import { Chat } from "../components/Chat/Chat";
-import { InputAndButton } from "../components/InputAndButton";
+import { Input } from "../components/Input";
+import { Context } from "../main";
 
 export const ChatPage: FC = () => {
   const { auth, firestore } = useContext(Context);
   const [user] = useAuthState(auth);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
 
-  const messagesColection = collection(firestore, "messages");
-  const messagesQuery = query(messagesColection, orderBy("createdAt"));
+  const messagesCollection = collection(firestore, "messages");
+  const messagesQuery = query(messagesCollection, orderBy("createdAt"));
   const [data] = useCollectionData(messagesQuery);
 
   const messages = data?.map((message) => {
-    if (message.createdAt && typeof message.createdAt !== "string") {
-      message.createdAt = (message.createdAt as Timestamp)
-        .toDate()
-        .toLocaleString("en-GB");
+    if (message.createdAt && !(message.createdAt instanceof Date)) {
+      message.createdAt = (message.createdAt as Timestamp).toDate();
     }
     return message;
   });
 
   const onKeyDown = (
-    e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if (e.code === "Enter") {
+    if (event.code === "Enter") {
       sendMessage();
     }
   };
 
   const sendMessage = async () => {
-    if (value) {
-      await addDoc(messagesColection, {
-        displayName: user?.displayName,
-        uid: user?.uid,
-        photoURL: user?.photoURL,
-        text: value,
-        createdAt: serverTimestamp(),
-      });
-      setValue("");
+    if (user && value) {
+      try {
+        await addDoc(messagesCollection, {
+          displayName: user.displayName,
+          uid: user.uid,
+          photoURL: user.photoURL,
+          text: value,
+          createdAt: serverTimestamp(),
+        });
+        setValue("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
@@ -63,10 +66,10 @@ export const ChatPage: FC = () => {
       alignItems={"center"}
     >
       <Chat messages={messages} userId={user?.uid} />
-      <InputAndButton
+      <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) => onKeyDown(e)}
+        onKeyDown={onKeyDown}
         onClick={sendMessage}
       />
     </Grid>

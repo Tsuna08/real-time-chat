@@ -1,6 +1,7 @@
-import { FC, ChangeEvent, KeyboardEvent } from "react";
-import { OutlinedInput, InputAdornment, IconButton, Icon } from "@mui/material";
-import sendIcon from "../assets/send.svg";
+import { Icon, IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import { ChangeEvent, FC, KeyboardEvent } from "react";
+
+import { SendIcon } from "../assets/send";
 
 interface InputAndButtonProps {
   value: string;
@@ -9,7 +10,7 @@ interface InputAndButtonProps {
   onClick: () => void;
 }
 
-export const InputAndButton: FC<InputAndButtonProps> = ({
+export const Input: FC<InputAndButtonProps> = ({
   value,
   onChange,
   onKeyDown,
@@ -19,20 +20,18 @@ export const InputAndButton: FC<InputAndButtonProps> = ({
     <OutlinedInput
       fullWidth
       value={value}
-      onChange={(e) => onChange(e)}
-      onKeyDown={(e) => onKeyDown(e)}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
       endAdornment={
         <InputAdornment position="end">
           <IconButton aria-label="send button" onClick={onClick}>
             <Icon>
-              <img src={sendIcon} alt="Send Icon" />
+              <SendIcon />
             </Icon>
           </IconButton>
         </InputAdornment>
       }
-      inputProps={{
-        "aria-label": "weight",
-      }}
+      inputProps={{ "aria-label": "weight" }}
     />
   );
 };

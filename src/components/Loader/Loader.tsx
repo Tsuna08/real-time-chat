@@ -1,16 +1,17 @@
-import { FC } from "react";
+import "./style.scss";
+
 import { Grid } from "@mui/material";
-import "./style.css";
+import { FC } from "react";
 
 const Loader: FC = () => {
   return (
     <Grid
       container
-      style={{ width: 400 }}
+      sx={{ width: 400 }}
       alignItems={"center"}
       justifyContent={"center"}
     >
-      <div className="lds-ripple">
+      <div className="lds-ripple" aria-label="loading">
         <div></div>
         <div></div>
       </div>

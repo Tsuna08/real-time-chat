@@ -1,21 +1,24 @@
-import { Grid, Box, Button } from "@mui/material";
-import { FC, useContext } from "react";
-import { Context } from "../main";
+import { Box, Button, Grid } from "@mui/material";
 import { signInWithPopup } from "firebase/auth";
+import { FC, useContext } from "react";
+
+import { Context } from "../main";
 
 export const Login: FC = () => {
   const { auth, provider } = useContext(Context);
 
   const login = async () => {
-    signInWithPopup(auth, provider).catch((error) => {
-      console.log("error: ", error);
-    });
+    try {
+      signInWithPopup(auth, provider);
+    } catch (error) {
+      console.log("Error during login: ", error);
+    }
   };
 
   return (
     <Grid
       container
-      style={{ width: 400 }}
+      sx={{ width: 400 }}
       alignItems={"center"}
       justifyContent={"center"}
     >

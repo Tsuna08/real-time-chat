@@ -1,8 +1,9 @@
-import { FC } from "react";
 import { Paper } from "@mui/material";
 import { DocumentData } from "firebase/firestore";
+import { FC } from "react";
+
 import { Message } from "../Message/Message";
-import "./style.css";
+import classes from "./Chat.module.scss";
 
 interface ChatProps {
   messages?: DocumentData[];
@@ -11,7 +12,7 @@ interface ChatProps {
 
 export const Chat: FC<ChatProps> = ({ messages, userId }) => {
   return (
-    <Paper elevation={3} className="pepper">
+    <Paper elevation={3} className={classes.pepper}>
       {messages?.map((message, index) => (
         <Message key={index} message={message} userId={userId} />
       ))}

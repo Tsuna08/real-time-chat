@@ -1,31 +1,38 @@
+import { AppBar, Button, Grid, Toolbar } from "@mui/material";
 import { FC, useContext } from "react";
-import { AppBar, Button, Toolbar, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ROUTES } from "../utils/routes";
+
 import { Context } from "../main";
 
 const Header: FC = () => {
   const { auth } = useContext(Context);
   const [user, loading] = useAuthState(auth);
 
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
         <Grid container justifyContent={"flex-end"}>
-          {!loading &&
-            (user ? (
-              <Button onClick={() => auth.signOut()} variant="contained">
-                Log out
-              </Button>
-            ) : (
-              <Link to={ROUTES.login}>
-                <Button variant="contained">Log in</Button>
-              </Link>
-            ))}
+          {!loading && (
+            <Button
+              onClick={user ? handleLogout : undefined}
+              variant="contained"
+              aria-label={user ? "Log out" : "Log in"}
+            >
+              {user ? "Log out" : "Log in"}
+            </Button>
+          )}
         </Grid>
       </Toolbar>
     </AppBar>
   );
 };
+
 export default Header;

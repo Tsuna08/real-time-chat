@@ -1,10 +1,10 @@
-import { ROUTES } from "./utils/routes";
-import { Login } from "./pages/Login";
 import { ChatPage } from "./pages/ChatPage";
+import { Login } from "./pages/Login";
+import { routes } from "./utils/routes";
 
 export const publicRoutes = [
   {
-    path: ROUTES.login,
+    path: routes.login,
     element: <Login />,
   },
   {
@@ -15,7 +15,7 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   {
-    path: ROUTES.chat,
+    path: routes.chat,
     element: <ChatPage />,
   },
   {

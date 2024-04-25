@@ -1,13 +1,14 @@
-import { StrictMode, createContext } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { BrowserRouter } from "react-router-dom";
-import Layout from "./layout/Layout.tsx";
+import "./index.scss";
+import "firebase/firestore";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { createContext, StrictMode } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+
+import Layout from "./layout/Layout.tsx";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCeUGrfgjS393k6jLvyVtMfA8SMkZNzcBI",

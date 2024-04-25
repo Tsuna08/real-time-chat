@@ -1,13 +1,14 @@
-import { FC } from "react";
 import {
-  Card,
-  CardHeader,
-  CardContent,
   Avatar,
+  Card,
+  CardContent,
+  CardHeader,
   Typography,
 } from "@mui/material";
 import { DocumentData } from "firebase/firestore";
-import "./style.css";
+import { FC } from "react";
+
+import classes from "./Message.module.scss";
 
 interface MessageProps {
   message: DocumentData;
@@ -15,20 +16,20 @@ interface MessageProps {
 }
 
 export const Message: FC<MessageProps> = ({ message, userId }) => {
+  const cardStyle =
+    userId === message.uid ? classes.cardCurrentUser : classes.cardOtherUser;
+
+  const createdAt = message?.createdAt?.toLocaleString("en-GB");
+
   return (
-    <Card
-      className="card"
-      style={{
-        marginLeft: userId === message.uid ? "auto" : "10px",
-      }}
-    >
+    <Card className={`${classes.card} ${cardStyle}`}>
       <CardHeader
-        className="cardHeader"
-        avatar={<Avatar aria-label="recipe" src={message.photoURL} />}
+        className={classes.cardHeader}
+        avatar={<Avatar aria-label="user-avatar" src={message.photoURL} />}
         title={message.displayName}
-        subheader={message.createdAt}
+        subheader={createdAt}
       />
-      <CardContent className="cardContent">
+      <CardContent className={classes.cardContent}>
         <Typography variant="body2" color="text.secondary">
           {message.text}
         </Typography>

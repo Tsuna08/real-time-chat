@@ -1,0 +1,19 @@
+.card {
+  margin: 0.625rem;
+  width: fit-content;
+  padding: 0.3125rem;
+  width: 30%;
+}
+
+.cardHeader,
+.cardContent {
+  padding: 0.3rem 0.5rem !important;
+}
+
+.cardCurrentUser {
+  margin-left: auto;
+}
+
+.cardOtherUser {
+  margin-left: 0.625rem;
+}

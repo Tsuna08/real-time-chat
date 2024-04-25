@@ -1,7 +1,8 @@
-import { FC } from "react";
-import Header from "../components/Header";
-import AppRouter from "../components/AppRouter";
 import { Container, Grid } from "@mui/material";
+import { FC } from "react";
+
+import AppRouter from "../components/AppRouter";
+import Header from "../components/Header";
 
 const Layout: FC = () => {
   return (

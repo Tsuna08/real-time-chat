@@ -1,9 +1,10 @@
-import { Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { privateRoutes, publicRoutes } from "../routes";
-import { Context } from "../main";
+import { Route, Routes } from "react-router-dom";
+
 import Loader from "../components/Loader/Loader";
+import { Context } from "../main";
+import { privateRoutes, publicRoutes } from "../routes";
 
 const AppRouter = () => {
   const { auth } = useContext(Context);
@@ -13,17 +14,15 @@ const AppRouter = () => {
     return <Loader />;
   }
 
-  return user ? (
+  return (
     <Routes>
-      {privateRoutes.map(({ path, element }, index) => (
-        <Route key={index} path={path} element={element} />
-      ))}
-    </Routes>
-  ) : (
-    <Routes>
-      {publicRoutes.map(({ path, element }, index) => (
-        <Route key={index} path={path} element={element} />
-      ))}
+      {user
+        ? privateRoutes.map(({ path, element }, index) => (
+            <Route key={index} path={path} element={element} />
+          ))
+        : publicRoutes.map(({ path, element }, index) => (
+            <Route key={index} path={path} element={element} />
+          ))}
     </Routes>
   );
 };

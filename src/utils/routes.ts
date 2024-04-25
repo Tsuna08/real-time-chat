@@ -1,4 +1,4 @@
-export const ROUTES = {
+export const routes = {
   main: "/",
   login: "/login",
   chat: "/chat",
